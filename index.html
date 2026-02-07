@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Satu dari Sejuta, Cantikmu Tak Terlukiskan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #ff6b9d;
+            --secondary-color: #ffd1dc;
+            --accent-color: #d8a7ca;
+            --light-color: #fff5f7;
+            --dark-color: #5d3a58;
+            --shadow: 0 10px 30px rgba(255, 107, 157, 0.2);
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
+            color: white;
+            text-align: center;
+            padding: 4rem 1.5rem;
+            position: relative;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-content {
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            animation: heartBeat 2s infinite;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        .quote-float {
+            position: fixed;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 25px;
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            width: 85%;
+            text-align: center;
+            font-style: italic;
+            color: var(--primary-color);
+            border: 1px solid var(--secondary-color);
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .gallery-container {
+            max-width: 1000px;
+            margin: -50px auto 3rem;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 5;
+        }
+
+        .photo-card {
+            margin-bottom: 3rem;
+            border-radius: 20px;
+            overflow: hidden;
+            background: white;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.8s ease;
+        }
+
+        .photo-card.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .photo-img {
+            width: 100%;
+            height: 70vh;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-overlay {
+            padding: 1.5rem;
+            background: white;
+            text-align: center;
+        }
+
+        .photo-title {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.4);
+            animation: floatHeart 6s linear infinite;
+        }
+
+        @keyframes heartBeat {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, 20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+
+        footer {
+            padding: 3rem 1rem;
+            text-align: center;
+            background: var(--secondary-color);
+            color: var(--dark-color);
+        }
+    </style>
+</head>
+
+<body>
+    <audio id="myAudio" loop>
+        <source src="./music/laguJungkook.mp3" type="audio/mp3">
+    </audio>
+
+    <header>
+        <div class="floating-hearts" id="hearts-container"></div>
+        <div class="header-content">
+            <i class="fas fa-crown" style="font-size: 3rem; margin-bottom: 1rem; color: #ffd700;"></i>
+            <h1>Ratuku yang Cantik</h1>
+            <p class="subtitle">"Dunia terasa lebih berwarna hanya dengan melihat senyummu hari ini."</p>
+            <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8;">(Scroll untuk melihat alasanku mengagumimu)
+            </p>
+        </div>
+    </header>
+
+    <div id="dynamic-quote" class="quote-float"></div>
+
+    <main class="gallery-container" id="photo-gallery">
+    </main>
+
+    <footer>
+        <p>Tetaplah bersinar, Sayang ❤️</p>
+        <p style="font-size: 0.8rem; margin-top: 10px;">&copy; 2026 Dedikasi Untuk Wanita Hebat</p>
+    </footer>
+
+    <script>
+        const photos = [
+            { id: 1, title: "Cantik di Mana Saja", quote: "Makan di tempat mewah pun kalah menarik dibandingkan menatap wajahmu." },
+            { id: 2, title: "Tenang Seperti Air", quote: "Pemandangan Danau Singkarak indah, tapi matamu adalah favoritku." },
+            { id: 3, title: "Pesona Sore Hari", quote: "Bahkan senja di Taplau malu menampakkan diri karena kalah cantik darimu." },
+            { id: 4, title: "Bidadari Rumah", quote: "Kamu adalah definisi sebenarnya dari kecantikan yang sederhana namun luar biasa." },
+            { id: 5, title: "Cerdas dan Menawan", quote: "Dunia pendidikan beruntung memilikimu, dan aku lebih beruntung lagi." },
+            { id: 6, title: "Semangat Pagi", quote: "Sebelum mulai hari, melihatmu adalah asupan energi terbaik untukku." },
+            { id: 7, title: "Penyayang Binatang", quote: "Hatimu yang tulus membuatmu terlihat berkali-kali lipat lebih cantik." },
+            { id: 8, title: "Fokusmu Menyilaukan", quote: "Melihatmu serius adalah salah satu pemandangan favorit yang takkan bosan kulihat." },
+            { id: 9, title: "Deburan Pesona", quote: "Angin laut pun ingin sekali menyentuh rambutmu karena keindahannya." },
+            { id: 10, title: "Pulang Pada Hatimu", quote: "Sejauh apapun jarak, hatimu adalah tempat pulang paling indah yang pernah ada." }
+        ];
+
+        const imageUrls = [
+            "./photos/IMG-1.jpg", "./photos/IMG-2.jpg", "./photos/IMG-3.jpg", "./photos/IMG-4.jpg", "./photos/IMG-5.jpg",
+            "./photos/IMG-6.jpg", "./photos/IMG-7.jpg", "./photos/IMG-8.jpg", "./photos/IMG-9.jpg", "./photos/IMG-10.jpg"
+        ];
+
+        function createHearts() {
+            const container = document.getElementById('hearts-container');
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '<i class="fas fa-heart"></i>';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(heart);
+            }
+        }
+
+        function initGallery() {
+            const gallery = document.getElementById('photo-gallery');
+            photos.forEach((photo, i) => {
+                const card = document.createElement('div');
+                card.className = 'photo-card';
+                card.dataset.quote = photo.quote;
+                card.innerHTML = `
+                    <img src="${imageUrls[i]}" class="photo-img">
+                    <div class="photo-overlay">
+                        <h3 class="photo-title">${photo.title}</h3>
+                    </div>
+                `;
+                gallery.appendChild(card);
+            });
+        }
+
+        function handleScroll() {
+            const cards = document.querySelectorAll('.photo-card');
+            const quoteBox = document.getElementById('dynamic-quote');
+            let currentQuote = "";
+
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.7 && rect.bottom > window.innerHeight * 0.3) {
+                    card.classList.add('visible');
+                    currentQuote = card.dataset.quote;
+                }
+            });
+
+            if (currentQuote) {
+                quoteBox.innerText = currentQuote;
+                quoteBox.style.display = 'block';
+            } else {
+                quoteBox.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createHearts();
+            initGallery();
+            window.addEventListener('scroll', handleScroll);
+        });
+
+        document.addEventListener('click', function () {
+            var audio = document.getElementById("myAudio");
+            audio.play();
+        }, { once: true });
+    </script>
+</body>
+
+</html>
